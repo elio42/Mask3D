@@ -224,11 +224,8 @@ class InstanceSegmentation(pl.LightningModule):
 
                 if score > self.config.general.export_threshold:
                     # reduce the export size a bit. I guess no performance difference
-                    np.savetxt(
-                        f"{pred_mask_path}/{file_name}_{real_id}.txt",
-                        mask,
-                        fmt="%d",
-                    )
+                    with open(f"{pred_mask_path}/{file_name}_{real_id}.txt", "w") as f_mask:
+                        f_mask.write('\n'.join(mask.astype(str)))
                     fout.write(
                         f"pred_mask/{file_name}_{real_id}.txt {pred_class} {score}\n"
                     )
